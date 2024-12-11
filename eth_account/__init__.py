@@ -8,4 +8,4 @@ from eth_account.account import (
 
 __all__ = ["Account"]
 
-__version__ = __version("eth-account")
+__version__ = __version("ha-eth-account")
