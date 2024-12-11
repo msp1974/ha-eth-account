@@ -41,7 +41,7 @@ with open("./README.md") as readme:
 setup(
     name="ha-eth-account",
     # *IMPORTANT*: Don't manually change the version here. Use `make bump`, as described in readme
-    version="0.13.4",
+    version="0.1.1",
     description="""eth-account: Sign Ethereum transactions and messages with local private keys.  Patched to work with HA""",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -55,11 +55,11 @@ setup(
         "eth-keyfile>=0.7.0, <0.9.0",
         "eth-keys>=0.4.0",
         "eth-rlp>=2.1.0",
-        "eth-utils>=2.0.0",
+        "ha-eth-utils>=5.0.0",
         "hexbytes>=1.2.0",
         "rlp>=1.0.0",
         "ckzg>=2.0.0",
-        "pydantic>=1.0.0",
+        "pydantic>=1.0.0, <2",
     ],
     python_requires=">=3.8, <4",
     extras_require=extras_require,

@@ -44,7 +44,6 @@ from hexbytes import (
 from pydantic import (
     BaseModel,
     ConfigDict,
-    computed_field,
     field_validator,
 )
 
@@ -185,7 +184,6 @@ class BlobPooledTransactionData(BaseModel):
 
     # type ignored bc mypy does not support decorated properties
     # https://github.com/python/mypy/issues/1362
-    @computed_field  # type: ignore
     @property
     def versioned_hashes(self) -> List[BlobVersionedHash]:
         if self._versioned_hashes is None:
@@ -199,7 +197,6 @@ class BlobPooledTransactionData(BaseModel):
 
     # type ignored bc mypy does not support decorated properties
     # https://github.com/python/mypy/issues/1362
-    @computed_field  # type: ignore
     @property
     def commitments(self) -> List[BlobKZGCommitment]:
         if self._commitments is None:
@@ -217,7 +214,6 @@ class BlobPooledTransactionData(BaseModel):
 
     # type ignored bc mypy does not support decorated properties
     # https://github.com/python/mypy/issues/1362
-    @computed_field  # type: ignore
     @property
     def proofs(self) -> List[BlobProof]:
         if self._proofs is None:
