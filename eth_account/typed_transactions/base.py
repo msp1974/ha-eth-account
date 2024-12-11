@@ -41,11 +41,6 @@ from eth_utils.toolz import (
 from hexbytes import (
     HexBytes,
 )
-from pydantic import (
-    BaseModel,
-    ConfigDict,
-    field_validator,
-)
 
 from eth_account._utils.validation import (
     LEGACY_TRANSACTION_FORMATTERS,
@@ -83,8 +78,7 @@ TRUSTED_SETUP = os.path.join(
 VERSIONED_HASH_VERSION_KZG = b"\x01"
 
 
-class _BlobDataElement(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+class _BlobDataElement:
     data: HexBytes
 
     def as_hexbytes(self) -> HexBytes:
@@ -102,7 +96,6 @@ class Blob(_BlobDataElement):
     Represents a Blob.
     """
 
-    @field_validator("data")
     def validate_data(cls, v: Union[HexBytes, bytes]) -> Union[HexBytes, bytes]:
         if len(v) != 4096 * 32:
             raise ValidationError(
@@ -117,7 +110,6 @@ class BlobKZGCommitment(_BlobDataElement):
     Represents a Blob KZG Commitment.
     """
 
-    @field_validator("data")
     def validate_commitment(cls, v: Union[HexBytes, bytes]) -> Union[HexBytes, bytes]:
         if len(v) != 48:
             raise ValidationError("Blob KZG Commitment must be 48 bytes long.")
@@ -129,7 +121,6 @@ class BlobProof(_BlobDataElement):
     Represents a Blob Proof.
     """
 
-    @field_validator("data")
     def validate_proof(cls, v: Union[HexBytes, bytes]) -> Union[HexBytes, bytes]:
         if len(v) != 48:
             raise ValidationError("Blob Proof must be 48 bytes long.")
@@ -141,7 +132,6 @@ class BlobVersionedHash(_BlobDataElement):
     Represents a Blob Versioned Hash.
     """
 
-    @field_validator("data")
     def validate_versioned_hash(
         cls, v: Union[HexBytes, bytes]
     ) -> Union[HexBytes, bytes]:
@@ -154,7 +144,7 @@ class BlobVersionedHash(_BlobDataElement):
         return v
 
 
-class BlobPooledTransactionData(BaseModel):
+class BlobPooledTransactionData:
     """
     Represents the blob data for a type 3 `PooledTransaction` as defined by
     EIP-4844. This class takes blobs as bytes and computes the corresponding
@@ -174,7 +164,6 @@ class BlobPooledTransactionData(BaseModel):
             + hashlib.sha256(kzg_commitment.data).digest()[1:]
         )
 
-    @field_validator("blobs")
     def validate_blobs(cls, v: List[Blob]) -> List[Blob]:
         if len(v) == 0:
             raise ValidationError("Blob transactions must contain at least 1 blob.")
